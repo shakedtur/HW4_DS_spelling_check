@@ -11,7 +11,7 @@
 #define CONSTABLE 90000
 int main()
 {
-	char t[100] = "iam afraid youare about to become teh immexdiate pst president of teh eing alive club ha ha glados";
+	char t[100] = "My hash";
 	int a = constantStringHashFunction(t);
 	printf("%d\n" , a);
 	long int b = accumulateStringHashFunction(t);
