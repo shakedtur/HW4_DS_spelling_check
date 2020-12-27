@@ -54,7 +54,7 @@ LinkedList* FreeList(LinkedList* head) {
 	return NULL;
 }
 
-
+///need to change!!!!!!!!!!!!!!!!!!!!!!!!!!!
 int Search_Nmber(LinkedList* head, char* letter) {
 	LinkedList* temp = head;
 	int count = 0;
