@@ -15,7 +15,7 @@ LinkedList *	BuildNode(char*);
 LinkedList *	addToStart(LinkedList *, char*);
 LinkedList *	FreeList(LinkedList *);
 LinkedList *	DeleteElement(LinkedList *, char*);
-int Search_Nmber(LinkedList*, int Index);
+int Search_index_in_list(LinkedList* head, char* letter);
 int isInList(LinkedList*, char*);
 
 
@@ -54,19 +54,53 @@ LinkedList* FreeList(LinkedList* head) {
 	return NULL;
 }
 
-///need to change!!!!!!!!!!!!!!!!!!!!!!!!!!!
-int Search_Nmber(LinkedList* head, char* letter) {
+
+int Search_index_in_list(LinkedList* head, char* letter) {
 	LinkedList* temp = head;
 	int count = 0;
+	if (head == NULL)
+		return NULL;
 	while (temp !=NULL) {
 		count++;
 		if (temp->data == letter)
 			return count;
 		temp = temp->next;
 	}
-	return 0;
+	return NULL;
 }
 
-//LinkedList* DeleteElement(LinkedList *, char*) {
-//
-//}
+LinkedList* DeleteElement(LinkedList* temp_list, char* string) {
+	int position = Search_index_in_list(temp_list, string) - 1;
+	LinkedList* previous = temp_list, * current = temp_list->next;
+	if (temp_list == NULL)
+		return 0;
+	if (position == 0) {
+		LinkedList* temp = temp_list;
+		temp_list = temp_list->next;
+		free(temp);
+		return temp_list;
+	}
+	while (previous != NULL) {
+		if (previous->data == string)
+			break;
+		current = previous;
+		previous = previous->next;
+	}
+	if (previous != NULL)
+		current->next = previous->next;
+	free(previous);
+	return temp_list;
+}
+
+
+int isInList(LinkedList* temp_list, char* string) {
+	LinkedList* temp = temp_list;
+	if (temp_list == NULL)
+		return 0;
+	while (temp != NULL) {
+		if (temp->data == string)
+			return 1;
+		temp = temp->next;
+	}
+	return 0;
+}

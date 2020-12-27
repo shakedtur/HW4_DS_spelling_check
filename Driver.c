@@ -25,18 +25,21 @@ int main()
 	char lior[100] = "lior";
 	char shaked[100] = "shaked";
 	char aaaa[100] = "cscscscscscttt";
+	char bbb[100] = "tttttttttt";
 	LinkedList* head = NULL;
 	head = BuildNode(lior);
 	PrintList(head);
 	head = addToStart(head, shaked);
 	PrintList(head);
-	head = addToStart(head, "tttttttttt");
+	head = addToStart(head, bbb);
 	PrintList(head);
-	head = addToStart(head, "cscscscscscttt");
+	head = addToStart(head, aaaa);
 	PrintList(head);
-	int a = Search_Nmber(head, shaked);
-	printf("%d\n",a);
-	//head = DeleteElement(head, a);
-	//PrintList(head);
+	head = DeleteElement(head, bbb);
+	//LinkedList* c = NULL;
+	//int k = Search_index_in_list(c, aaaa);
+	//printf("%d", k);
+	//int a = isInList(head, "dsddddddddsdsdsdsd");
+	//PrintList(head);	
 	//printf("%d", a);
 }
