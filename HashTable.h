@@ -2,7 +2,7 @@
 #include <math.h>
 #include "LinkedList.h"
 #include "string.h"
-#define SIZE_OF_HASHTABLE 90000
+#define SIZE_OF_HASHTABLE 800
 
 typedef struct HashTableElement HashTableElement;
 
@@ -93,15 +93,15 @@ int hash(char* str, HashTable* ht) {
 
 
 HashTable* initTable(int tableSize1, int hashFunction) {
-	HashTable* NewHAsh = malloc(sizeof(HashTable));
+	HashTable* NewHAsh =malloc(sizeof(HashTable));
 	if (tableSize1 > 0)
 		NewHAsh->tableSize = tableSize1;
 	else
-		NewHAsh->tableSize = 1;
+		NewHAsh->tableSize = SIZE_OF_HASHTABLE;
 	NewHAsh->numOfElements = 0;
 	NewHAsh->cellsTaken = 0;
-	NewHAsh->hashTable = NULL;
-
+	NewHAsh->hashTable = calloc(NewHAsh->tableSize , sizeof(HashTableElement));
+	
 	switch (hashFunction)
 	{
 	case 1:
@@ -119,14 +119,15 @@ HashTable* initTable(int tableSize1, int hashFunction) {
 	return NewHAsh;
 }
 
+//maybe need to fix if it insert the str to right place in Hashtable?
 
 int insert(HashTable* ht, char* str) {
-	if (/*search() &&*/str == NULL)
+	if (str == NULL && Search_index_in_list(ht->hashTable->chain,str)>=0 )
 		return 0;
 	else
 	{
-		ht->hashTable->key = hash(str, ht->tableSize);//change the key value according the match hash function
-		ht->hashTable->chain = str;/*add to start*/
+		ht->hashTable->key = hash(str, ht);//change the key value according the match hash function
+		ht->hashTable->chain = addToStart(ht->hashTable->chain, str);//add the new str to head of the list
 		return 1;
 	}
 }
@@ -134,11 +135,20 @@ int insert(HashTable* ht, char* str) {
 
 int deleteElement(HashTable* ht, char* str)
 {
-	if (/*search() &&*/str == NULL)
+	if (str == NULL && Search_index_in_list(ht->hashTable->chain, str) >= 0)
 		return 0;
+	else {
+		ht->hashTable->chain=DeleteElement(ht->hashTable->chain,str);
+		return 1;
+	}
+}
+
+int search(HashTable* ht, char* str)
+{
+	if (str != NULL && Search_index_in_list(ht->hashTable->chain, str) > 0)
+		return 1;
 	else
-		ht->hashTable->chain;//delete linklist
-	return 1;
+		return 0;
 }
 
 

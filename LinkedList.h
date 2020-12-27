@@ -37,7 +37,7 @@ void PrintList(LinkedList* head) {
 	LinkedList* temp = head;
 	printf("\nThe list is: ");
 	while (temp != NULL) {
-		printf("%s ", temp->data);
+		printf("|%s|", temp->data);
 		temp = temp->next;
 	}
 	printf("\n");
