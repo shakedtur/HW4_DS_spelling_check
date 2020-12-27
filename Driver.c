@@ -8,25 +8,35 @@
 ///*
 //	Add help functions here...
 //*/
-#define CONSTABLE 90000
+
 int main()
 {
-	char t[100] = "My hash";
-	int a = constantStringHashFunction(t);
-	printf("%d\n" , a);
-	long int b = accumulateStringHashFunction(t);
-	printf("%d\n", b);
-	long int c = improvedHashFunction(t);
-	printf("%d\n", c);
-
-	HashTable* test = initTable(CONSTABLE,2);
-	int indextest = hash(t, test);
-
-	printf("hello");
-
-
+	char t[100] = "iam afraid youare about to become teh immexdiate pst president of teh eing alive club ha ha glados";
+	////int a = constantStringHashFunction(t);
+	////printf("%d" , a);
+	////long int b = accumulateStringHashFunction(t);
+	////printf("%d", b);
+	//int c = improvedHashFunction(t);
+	//printf("%d", c);
 	//char* text = "iam afraid youare about to become teh immexdiate pst president of teh eing alive club ha ha glados";
 	//SpellingSuggestion* spellingSuggestions = spellingCheck(text);
 	//printSpellingSuggestions(spellingSuggestions);
-	return 0;
+	//LinkedList* head = NULL;
+	char lior[100] = "lior";
+	char shaked[100] = "shaked";
+	char aaaa[100] = "cscscscscscttt";
+	LinkedList* head = NULL;
+	head = BuildNode(lior);
+	PrintList(head);
+	head = addToStart(head, shaked);
+	PrintList(head);
+	head = addToStart(head, "tttttttttt");
+	PrintList(head);
+	head = addToStart(head, "cscscscscscttt");
+	PrintList(head);
+	int a = Search_Nmber(head, shaked);
+	printf("%d\n",a);
+	//head = DeleteElement(head, a);
+	//PrintList(head);
+	//printf("%d", a);
 }

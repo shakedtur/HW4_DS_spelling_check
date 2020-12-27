@@ -15,6 +15,58 @@ LinkedList *	BuildNode(char*);
 LinkedList *	addToStart(LinkedList *, char*);
 LinkedList *	FreeList(LinkedList *);
 LinkedList *	DeleteElement(LinkedList *, char*);
+int Search_Nmber(LinkedList*, int Index);
 int isInList(LinkedList*, char*);
 
-//search add
+
+LinkedList* BuildNode(char* letter) {
+	LinkedList* node = (LinkedList*)malloc(sizeof(LinkedList));
+	node->data = letter;
+	node->next = NULL;
+	return node;
+}
+
+LinkedList* addToStart(LinkedList* head, char* letter)
+{
+	LinkedList* new_elem = BuildNode(letter);
+	new_elem->next = head;
+	return new_elem;
+}
+
+void PrintList(LinkedList* head) {
+	LinkedList* temp = head;
+	printf("\nThe list is: ");
+	while (temp != NULL) {
+		printf("%s ", temp->data);
+		temp = temp->next;
+	}
+	printf("\n");
+}
+
+
+LinkedList* FreeList(LinkedList* head) {
+	LinkedList* temp;
+	while (head != NULL) {
+		temp = head;
+		head = head->next;
+		free(temp);
+	}
+	return NULL;
+}
+
+
+int Search_Nmber(LinkedList* head, char* letter) {
+	LinkedList* temp = head;
+	int count = 0;
+	while (temp !=NULL) {
+		count++;
+		if (temp->data == letter)
+			return count;
+		temp = temp->next;
+	}
+	return 0;
+}
+
+//LinkedList* DeleteElement(LinkedList *, char*) {
+//
+//}
