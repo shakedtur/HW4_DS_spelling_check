@@ -93,15 +93,19 @@ int hash(char* str, HashTable* ht) {
 
 
 HashTable* initTable(int tableSize1, int hashFunction) {
-	HashTable* NewHAsh =malloc(sizeof(HashTable));
+	HashTable* NewHAsh =(HashTable*) malloc(sizeof(HashTable));
 	if (tableSize1 > 0)
 		NewHAsh->tableSize = tableSize1;
 	else
 		NewHAsh->tableSize = SIZE_OF_HASHTABLE;
 	NewHAsh->numOfElements = 0;
 	NewHAsh->cellsTaken = 0;
-	NewHAsh->hashTable = calloc(NewHAsh->tableSize , sizeof(HashTableElement));
-	
+	NewHAsh->hashTable =(HashTableElement*) calloc(NewHAsh->tableSize , sizeof(HashTableElement));
+	for (int i = 0; i < NewHAsh->tableSize; i++)
+	{
+		NewHAsh->hashTable[i].key = i;
+		//printf("%d",NewHAsh->hashTable[i].key);
+	}
 	switch (hashFunction)
 	{
 	case 1:
@@ -126,13 +130,14 @@ int insert(HashTable* ht, char* str) {
 		return 0;
 	else
 	{
-		ht->hashTable->key = hash(str, ht);//change the key value according the match hash function
-		ht->hashTable->chain = addToStart(ht->hashTable->chain, str);//add the new str to head of the list
+		int indexkey= hash(str, ht);//change the key value according the match hash function
+		//ht->hashTable[indexkey].chain->data = str;
+		ht->hashTable[indexkey].chain =addToStart(ht->hashTable[indexkey].chain, str);//add the new str to head of the list
 		return 1;
 	}
 }
 
-
+//need to fixxxxxxxxxxxx!!!!!!!!!!!!!!!!!!
 int deleteElement(HashTable* ht, char* str)
 {
 	if (str == NULL && Search_index_in_list(ht->hashTable->chain, str) >= 0)
