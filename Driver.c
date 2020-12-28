@@ -2,119 +2,98 @@
 //#include "WordSpellingChecker.h"
 #include "HashTable.h"
 
+ // חשוב מאוד!!!! לשנות את הערכים של הנתיב לקובץ וגודל של הטבלת גיבוב רק כאן!!!!
+#define PATH "dictionary1.txt"
+#define CONSTABLE 10
+#define HASHFUNCTYPE 2 //1 or 2 or 3
 
 int parseWordsToTable(char* path, HashTable* ht);
 //SpellingSuggestion* spellingCheck(char* text);
 ///*
 //	Add help functions here...
 //*/
-#define CONSTABLE 5
+
+void PrintAllHT(HashTable* ht);//func to print all the elemnts inside the HT in  cronolog order
+void PrintHTParmeters(HashTable* ht);//func to show the parameter of the HT as kind of hashfunc
+
+
 
 int main()
 {
-	//char t[100] = "iam afraid youare about to become teh immexdiate pst president of teh eing alive club ha ha glados";
-	////int a = constantStringHashFunction(t);
-	////printf("%d" , a);
-	////long int b = accumulateStringHashFunction(t);
-	////printf("%d", b);
-	//int c = improvedHashFunction(t);
-	//printf("%d", c);
-	//char* text = "iam afraid youare about to become teh immexdiate pst president of teh eing alive club ha ha glados";
-	//SpellingSuggestion* spellingSuggestions = spellingCheck(text);
-	//printSpellingSuggestions(spellingSuggestions);
-	//LinkedList* head = NULL;
-	char lior[100] = "lior";
-	char shaked[100] = "shaked";
-	char aaaa[100] = "cscscscscscttt";
-	LinkedList* head = NULL;
-	head = BuildNode(lior);
-	PrintList(head);
-	head = addToStart(head, shaked);
-	PrintList(head);
-	head = addToStart(head, "tttttttttt");
-	PrintList(head);
-	head = addToStart(head, "cscscscscscttt");
-	PrintList(head);
-	DeleteElement(head, "tttttttttt");
-	DeleteElement(head, shaked);
-	DeleteElement(head, "cscscscscscttt");
-
-	//char lior[100] = "lior";
-	//char shaked[100] = "shaked";
-	//char aaaa[100] = "aaaa";
-	//char bbb[100] = "bbb";
-	//LinkedList* head = NULL;
-	//head = BuildNode(lior);
-	//PrintList(head);
-	//head = addToStart(head, shaked);
-	//PrintList(head);
-	//head = addToStart(head, bbb);
-	//PrintList(head);
-	//head = addToStart(head, aaaa);
-	//PrintList(head);
-	//head = DeleteElement(head, bbb);
-	//PrintList(head);
-	//head = DeleteElement(head, aaaa);
-	//DeleteElement(head, shaked);
-	//PrintList(head);
-	//head = DeleteElement(head, lior);
-	//PrintList(head);
-
-	////part 2 testing
-	//int a = Search_Nmber(head, shaked);
-	//printf("%d\n",a);
-
 	char t[100] = "My hash";
-	//int a1 = constantStringHashFunction(t);
-	//printf("%d\n", a1);
-	//long int b = accumulateStringHashFunction(t);
-	//printf("%d\n", b);
-	//long int c = improvedHashFunction(t);
-	//printf("%d\n", c);
-	HashTable* testHT = initTable(CONSTABLE,2);
-	int indextest = hash(t, testHT);
-	printf("indextest %d\n", indextest);
+	HashTable* testHT = initTable(CONSTABLE, HASHFUNCTYPE);
+	PrintHTParmeters(testHT);
+	PrintAllHT(testHT);
 	char first[] = "first";
 	insert(testHT, first);
 	insert(testHT, t);
+	PrintAllHT(testHT);
 	PrintList(testHT->hashTable->chain);
-	printf("Search befor %d", search(testHT,t));
+	printf("Search befor %d\n", search(testHT,t));
 	////DeleteElement(testHT->hashTable->chain,t);
 	//deleteElement(testHT, t);
 	//PrintList(testHT->hashTable->chain);
 	//printf("Search after del %d\n", search(testHT, t));
 
 	PrintList(testHT->hashTable->chain);
-	parseWordsToTable("dictionary1.txt", testHT);
-	for (int i = 0; i < CONSTABLE; i++)
-	{
-		PrintList(testHT->hashTable[i].chain);
-	}
+	parseWordsToTable(PATH, testHT);
+	printf("AfterREadinggggggggggggggggggggg\n");
+	PrintHTParmeters(testHT);
+	PrintAllHT(testHT);
+	deleteElement(testHT, first);//כששולחים כתובת של מילה למחיקה היא נמחקת
+	deleteElement(testHT, "ability");//כששולחים מילה זהה בכתיב, היא לא נמחקת מהטבלה
+	PrintAllHT(testHT);
+	printf("search my hash %d\n", search(testHT, t));//החיפוש לא מגיע למפתח של הרשימה המקושרת
+	printf("search My hash as a string %d\n", search(testHT, "My hash"));
+	
+	
 	printf("hello");
 
 
-
-	//head = DeleteElement(head, a);
-	//PrintList(head);
-	//printf("%d", a);
+	return 0;
 }
 
 int parseWordsToTable(char* path, HashTable* ht)
 {
 	FILE* myfile;
 	char word[20];
-	path = "dictionary1.txt";
-	fopen_s(&myfile, path, "rt");//dict1 is small file
+	char* ptrword;
+
+	fopen_s(&myfile, path, "rt");
 	if (!myfile) {
 		printf("Error, can't read file!!!");
 		return 0;
 		//exit(1);
 	}
-	while (fgets(word, 20, myfile)) {
-		insert(ht, word);
-		printf("%s", word);
+	while (!feof(myfile)) {
+		ptrword = (char*)malloc(20 * sizeof(char));
+		//fgets(ptrword, 20, myfile);
+		fscanf(myfile, "%s", ptrword);
+		insert(ht, ptrword);
+		//printf("%s ", ptrword);
 	}
+
 	fclose(myfile);
 	return 1;
 
+}
+
+void PrintAllHT(HashTable* ht) {
+	printf("====================================\n");
+	for (int i = 0; i < ht->tableSize; i++)
+	{
+		printf("%d ", i);
+		PrintList(ht->hashTable[i].chain);
+	}
+	printf("====================================\n");
+
+}
+void PrintHTParmeters(HashTable* ht) {
+	printf("-----------------------------------\n");
+	printf("hashFunction: %d\n",ht->hashFunction);
+	printf("tableSize: %d\n",ht->tableSize);
+	printf("callsTaken: %d\n",ht->cellsTaken);
+	printf("numOfElements: %d\n",ht->numOfElements);
+	printf("-----------------------------------\n");
+	
 }

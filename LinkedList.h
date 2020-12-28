@@ -35,7 +35,7 @@ LinkedList* addToStart(LinkedList* head, char* letter)
 
 void PrintList(LinkedList* head) {
 	LinkedList* temp = head;
-	printf("\nThe list is: ");
+	printf("The list is: ");
 	while (temp != NULL) {
 		printf("|%s|", temp->data);
 		temp = temp->next;

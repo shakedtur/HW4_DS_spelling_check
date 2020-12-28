@@ -2,7 +2,7 @@
 #include <math.h>
 #include "LinkedList.h"
 #include "string.h"
-#define SIZE_OF_HASHTABLE 800
+#define SIZE_OF_HASHTABLE 100
 
 typedef struct HashTableElement HashTableElement;
 
@@ -84,6 +84,7 @@ int hash(char* str, HashTable* ht) {
 		break;
 	case 3:
 		index = (absult(improvedHashFunction(str)) % ht->tableSize);
+		break;
 	default:
 		index = -1;//alarm on a error
 		break;
@@ -126,13 +127,13 @@ HashTable* initTable(int tableSize1, int hashFunction) {
 //maybe need to fix if it insert the str to right place in Hashtable?
 
 int insert(HashTable* ht, char* str) {
-	if (str == NULL && Search_index_in_list(ht->hashTable->chain,str)>=0 )
+	if (str == NULL && Search_index_in_list(ht->hashTable->chain,str)>=0 )//need to change to or ||
 		return 0;
 	else
 	{
 		int indexkey= hash(str, ht);//change the key value according the match hash function
-		//ht->hashTable[indexkey].chain->data = str;
 		ht->hashTable[indexkey].chain =addToStart(ht->hashTable[indexkey].chain, str);//add the new str to head of the list
+		ht->numOfElements++;
 		return 1;
 	}
 }
@@ -140,17 +141,20 @@ int insert(HashTable* ht, char* str) {
 //need to fixxxxxxxxxxxx!!!!!!!!!!!!!!!!!!
 int deleteElement(HashTable* ht, char* str)
 {
-	if (str == NULL && Search_index_in_list(ht->hashTable->chain, str) >= 0)
+	if (str == NULL && Search_index_in_list(ht->hashTable->chain, str) ==NULL)//need to change to or ||
 		return 0;
 	else {
-		ht->hashTable->chain=DeleteElement(ht->hashTable->chain,str);
+		int indexExsistKey = hash(str, ht);
+		ht->hashTable[indexExsistKey].chain = DeleteElement(ht->hashTable[indexExsistKey].chain, str);
+		//ht->hashTable->chain=DeleteElement(ht->hashTable->chain,str);
+		ht->numOfElements--;
 		return 1;
 	}
 }
 
 int search(HashTable* ht, char* str)
 {
-	if (str != NULL && Search_index_in_list(ht->hashTable->chain, str) > 0)
+	if (str != NULL && Search_index_in_list(ht->hashTable->chain, str) > 0)//need to change to or ||
 		return 1;
 	else
 		return 0;
