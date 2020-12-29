@@ -127,24 +127,23 @@ HashTable* initTable(int tableSize1, int hashFunction) {
 //maybe need to fix if it insert the str to right place in Hashtable?
 
 int insert(HashTable* ht, char* str) {
-	if (str == NULL && Search_index_in_list(ht->hashTable->chain,str)>=0 )//need to change to or ||
+	int indexkey = hash(str, ht);//change the key value according the match hash function
+	if (str == NULL || Search_index_in_list(ht->hashTable[indexkey].chain,str) > 0 )
 		return 0;
 	else
 	{
-		int indexkey= hash(str, ht);//change the key value according the match hash function
 		ht->hashTable[indexkey].chain =addToStart(ht->hashTable[indexkey].chain, str);//add the new str to head of the list
 		ht->numOfElements++;
 		return 1;
 	}
 }
 
-//need to fixxxxxxxxxxxx!!!!!!!!!!!!!!!!!!
-int deleteElement(HashTable* ht, char* str)
-{
-	if (str == NULL && Search_index_in_list(ht->hashTable->chain, str) ==NULL)//need to change to or ||
+
+int deleteElement(HashTable* ht, char* str){
+	int indexExsistKey = hash(str, ht);
+	if (str == NULL || Search_index_in_list(ht->hashTable[indexExsistKey].chain, str) ==0)
 		return 0;
 	else {
-		int indexExsistKey = hash(str, ht);
 		ht->hashTable[indexExsistKey].chain = DeleteElement(ht->hashTable[indexExsistKey].chain, str);
 		//ht->hashTable->chain=DeleteElement(ht->hashTable->chain,str);
 		ht->numOfElements--;
@@ -154,10 +153,11 @@ int deleteElement(HashTable* ht, char* str)
 
 int search(HashTable* ht, char* str)
 {
-	if (str != NULL && Search_index_in_list(ht->hashTable->chain, str) > 0)//need to change to or ||
-		return 1;
-	else
+	int indexkeysearch = hash(str, ht);
+	if (str == NULL || Search_index_in_list(ht->hashTable[indexkeysearch].chain, str) == 0)
 		return 0;
+	else
+		return 1;
 }
 
 

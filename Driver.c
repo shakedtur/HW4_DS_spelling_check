@@ -7,6 +7,7 @@
 #define CONSTABLE 10
 #define HASHFUNCTYPE 2 //1 or 2 or 3
 
+
 int parseWordsToTable(char* path, HashTable* ht);
 //SpellingSuggestion* spellingCheck(char* text);
 ///*
@@ -20,6 +21,23 @@ void PrintHTParmeters(HashTable* ht);//func to show the parameter of the HT as k
 
 int main()
 {
+	//LinkedList* reshima=NULL;
+	//char one[]="one";
+	//char two[] = "two";
+	//char three[] = "three";
+	//char ehad[] = "one";
+	//reshima=addToStart(reshima, one);
+	//PrintList(reshima);
+	//reshima=addToStart(reshima, two);
+	//reshima=addToStart(reshima, three);
+	//PrintList(reshima);
+	//int b = Search_index_in_list(reshima, "two");
+	//printf("%d\n", b);
+	//reshima=DeleteElement(reshima,"two");
+	//int a=Search_index_in_list(reshima, "two");
+	//PrintList(reshima);
+	//printf("%d",a);
+	//	return 0;
 	char t[100] = "My hash";
 	HashTable* testHT = initTable(CONSTABLE, HASHFUNCTYPE);
 	PrintHTParmeters(testHT);
@@ -34,19 +52,26 @@ int main()
 	//deleteElement(testHT, t);
 	//PrintList(testHT->hashTable->chain);
 	//printf("Search after del %d\n", search(testHT, t));
-
+	char above[] = "above";
 	PrintList(testHT->hashTable->chain);
 	parseWordsToTable(PATH, testHT);
 	printf("AfterREadinggggggggggggggggggggg\n");
 	PrintHTParmeters(testHT);
 	PrintAllHT(testHT);
-	deleteElement(testHT, first);//כששולחים כתובת של מילה למחיקה היא נמחקת
-	deleteElement(testHT, "ability");//כששולחים מילה זהה בכתיב, היא לא נמחקת מהטבלה
+	deleteElement(testHT, first);
+	deleteElement(testHT, "ability");
 	PrintAllHT(testHT);
-	printf("search my hash %d\n", search(testHT, t));//החיפוש לא מגיע למפתח של הרשימה המקושרת
-	printf("search My hash as a string %d\n", search(testHT, "My hash"));
-	
-	
+	printf("search above %d\n", search(testHT,above));
+	printf("search above as a string %d\n", search(testHT, "above"));
+	deleteElement(testHT, "above");
+	PrintHTParmeters(testHT);
+	PrintAllHT(testHT);
+	insert(testHT, "shaked");
+	insert(testHT,"able");
+	insert(testHT, t);
+	PrintHTParmeters(testHT);
+	PrintAllHT(testHT);
+	printf("search above as a string %d\n", search(testHT, "above"));
 	printf("hello");
 
 

@@ -62,7 +62,7 @@ int Search_index_in_list(LinkedList* head, char* letter) {
 		return NULL;
 	while (temp !=NULL) {
 		count++;
-		if (temp->data == letter)
+		if (temp->data == letter||strcmp(temp->data,letter)==0)//added strcmp()
 			return count;
 		temp = temp->next;
 	}
@@ -81,7 +81,7 @@ LinkedList* DeleteElement(LinkedList* temp_list, char* string) {
 		return temp_list;
 	}
 	while (previous != NULL) {
-		if (previous->data == string)
+		if (previous->data == string || strcmp(previous->data, string) == 0)//added strcmp()
 			break;
 		current = previous;
 		previous = previous->next;
