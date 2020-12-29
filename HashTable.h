@@ -28,7 +28,7 @@ int constantStringHashFunction(char* str);
 int accumulateStringHashFunction(char* str);
 int improvedHashFunction(char* str);
 int ASCIIvalue(char letter);
-
+int absult(int num);
 int hash(char* str, HashTable* ht);
 HashTable* initTable(int tableSize, int hashFunction);
 int insert(HashTable* ht, char* str);
@@ -132,6 +132,9 @@ int insert(HashTable* ht, char* str) {
 		return 0;
 	else
 	{
+		if (ht->hashTable[indexkey].chain == NULL) {//count the number of cells with at list one value
+			ht->cellsTaken++;
+		}
 		ht->hashTable[indexkey].chain =addToStart(ht->hashTable[indexkey].chain, str);//add the new str to head of the list
 		ht->numOfElements++;
 		return 1;
@@ -147,6 +150,8 @@ int deleteElement(HashTable* ht, char* str){
 		ht->hashTable[indexExsistKey].chain = DeleteElement(ht->hashTable[indexExsistKey].chain, str);
 		//ht->hashTable->chain=DeleteElement(ht->hashTable->chain,str);
 		ht->numOfElements--;
+		if (ht->hashTable[indexExsistKey].chain == NULL)//count the number of cells with at list one value
+			ht->cellsTaken--;
 		return 1;
 	}
 }
