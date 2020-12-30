@@ -80,12 +80,11 @@ int main()
 	int e=isWordInDictionary(testHT, "beel");
 	printf("%d,%d\n", d, e);
 	LinkedList* suggelist=NULL;
-	PrintList(suggelist);
-	suggelist= replaceCharacterCheck(testHT, "bake");
+	//PrintList(suggelist);
+	//suggelist= replaceCharacterCheck(testHT, "bake");
+	suggelist = addSpaceCheck(testHT, "idealer");
 	PrintList(suggelist);
 	//printf("%d %d", d, e);
-
-
 	return 0;
 }
 
