@@ -33,6 +33,45 @@ LinkedList* addToStart(LinkedList* head, char* letter)
 	return new_elem;
 }
 
+LinkedList* SumList(LinkedList* head, LinkedList* tail) {
+	if (head == NULL) {
+		head = tail;
+		return head;
+	}
+	while (head->next!=NULL)
+	{
+		head = head->next;
+	}
+	head->next = tail;
+}
+
+LinkedList* SortedMerge(LinkedList *  a, LinkedList*  b)
+{
+	LinkedList*  result = NULL;
+
+	/* Base cases */
+	if (a == NULL)
+		return(b);
+	else if (b == NULL)
+		return(a);
+
+	/* Pick either a or b, and recur */
+	if (a->data <= b->data)
+	{
+		result = a;
+		result->next = SortedMerge(a->next, b);
+	}
+	else
+	{
+		result = b;
+		result->next = SortedMerge(a, b->next);
+	}
+	return(result);
+}
+
+
+
+
 void PrintList(LinkedList* head) {
 	LinkedList* temp = head;
 	printf("The list is: ");

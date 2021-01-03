@@ -10,6 +10,8 @@
 
 int parseWordsToTable(char* path, HashTable* ht);
 SpellingSuggestion* spellingCheck(char* text);
+void ShowSpellOffers(SpellingSuggestion* offers);
+int IsExsistSuggerst(SpellingSuggestion* offers1, char* word1);
 ///*
 //	Add help functions here...
 void PrintAllHT(HashTable* ht);//func to print all the elemnts inside the HT in  cronolog order
@@ -19,72 +21,12 @@ void PrintHTParmeters(HashTable* ht);//func to show the parameter of the HT as k
 
 int main()
 {
-	////LinkedList* reshima=NULL;
-	////char one[]="one";
-	////char two[] = "two";
-	////char three[] = "three";
-	////char ehad[] = "one";
-	////reshima=addToStart(reshima, one);
-	////PrintList(reshima);
-	////reshima=addToStart(reshima, two);
-	////reshima=addToStart(reshima, three);
-	////PrintList(reshima);
-	////int b = Search_index_in_list(reshima, "two");
-	////printf("%d\n", b);
-	////reshima=DeleteElement(reshima,"two");
-	////int a=Search_index_in_list(reshima, "two");
-	////PrintList(reshima);
-	////printf("%d",a);
-	////	return 0;
-	//char t[100] = "My hash";
-	
-	HashTable* testHT = initTable(CONSTABLE, HASHFUNCTYPE);
-	//PrintHTParmeters(testHT);
-	//PrintAllHT(testHT);
-	//char first[] = "first";
-	//insert(testHT, first);
-	//insert(testHT, t);
-	//PrintAllHT(testHT);
-	//PrintList(testHT->hashTable->chain);
-	//printf("Search befor %d\n", search(testHT,t));
-	//////DeleteElement(testHT->hashTable->chain,t);
-	////deleteElement(testHT, t);
-	////PrintList(testHT->hashTable->chain);
-	////printf("Search after del %d\n", search(testHT, t));
-	//char above[] = "above";
-	//PrintList(testHT->hashTable->chain);
-	
-	parseWordsToTable(PATH, testHT);
-	//printf("AfterREadinggggggggggggggggggggg\n");
-	//PrintHTParmeters(testHT);
-	//PrintAllHT(testHT);
-	//deleteElement(testHT, first);
-	//deleteElement(testHT, "ability");
-	//PrintAllHT(testHT);
-	//printf("search above %d\n", search(testHT,above));
-	//printf("search above as a string %d\n", search(testHT, "above"));
-	//deleteElement(testHT, "above");
-	//PrintHTParmeters(testHT);
-	//PrintAllHT(testHT);
-	//insert(testHT, "shaked");
-	//insert(testHT,"able");
-	//insert(testHT, t);
-	PrintHTParmeters(testHT);
-	deleteElement(testHT, "about");
-	PrintHTParmeters(testHT);
-	//PrintAllHT(testHT);
-	//printf("search above as a string %d\n", search(testHT, "above"));
-	//printf("hello");
-	
-	int d=isWordInDictionary(testHT, "beer");
-	int e=isWordInDictionary(testHT, "beel");
-	printf("%d,%d\n", d, e);
-	LinkedList* suggelist=NULL;
-	//PrintList(suggelist);
-	//suggelist= replaceCharacterCheck(testHT, "bake");
-	suggelist = addSpaceCheck(testHT, "idealer");
-	PrintList(suggelist);
-	//printf("%d %d", d, e);
+	char* mishpat = "iam afraid youare about to become teh immexdiate pst president of teh eing alive club ha ha glados";
+	printf("%s\n",mishpat);
+
+	SpellingSuggestion* Halofot = spellingCheck(mishpat);
+	ShowSpellOffers(Halofot);
+
 	return 0;
 }
 
@@ -112,6 +54,85 @@ int parseWordsToTable(char* path, HashTable* ht)
 	return 1;
 
 }
+
+SpellingSuggestion* spellingCheck(char* text)
+{
+
+	char str1[20];
+	int j = 0;
+	HashTable* dict = initTable(CONSTABLE, HASHFUNCTYPE);
+	SpellingSuggestion* Firstwrongword= malloc(sizeof(SpellingSuggestion));
+	Firstwrongword->originalWord = (char*)malloc(20 * sizeof(char));
+	SpellingSuggestion* Lastsuggestion = NULL;
+	SpellingSuggestion* ptrFirstwrong = Firstwrongword;
+	int flag = 0;
+	if (text == NULL || text == "")
+		return Firstwrongword = NULL;
+	parseWordsToTable(PATH, dict);
+	PrintHTParmeters(dict);
+	for (int i = 0; i <= strlen(text); i++)	{
+		
+		if (text[i] == ' ' || text[i] == '\0') {
+			str1[j] = '\0';
+			j = 0;
+		//search if the word is wrong according the dictionary
+			if (isWordInDictionary(dict, str1) == 0) {
+				if (flag == 0) {
+					strcpy(Firstwrongword->originalWord, str1);
+					Firstwrongword->suggestions = getWordSuggestions(dict, str1);
+					Firstwrongword->next = NULL;
+					Lastsuggestion = Firstwrongword;
+					flag = 1;
+				}
+				else{
+					if (IsExsistSuggerst(Firstwrongword,str1) == 0) {
+						SpellingSuggestion* WrongwordNext = /*(SpellingSuggestion*)*/malloc(sizeof(SpellingSuggestion));
+						WrongwordNext->originalWord = (char*)malloc(20 * sizeof(char));
+						strcpy(WrongwordNext->originalWord, str1);
+						WrongwordNext->suggestions = getWordSuggestions(dict, str1);
+						WrongwordNext->next = NULL;
+						Lastsuggestion->next = WrongwordNext;
+						Lastsuggestion = Lastsuggestion->next;
+					}
+				}
+			}				
+		}
+		else{
+			str1[j] = text[i];
+			j++;
+		}
+	}
+	if (flag == 0)
+		return ptrFirstwrong = NULL;
+	else
+		return ptrFirstwrong;
+}
+
+void ShowSpellOffers(SpellingSuggestion* offers)
+{
+	SpellingSuggestion* temp=offers;
+	while (temp!=NULL)
+	{
+		printf("The word ''%s'' was misspelled. Did you mean:\n\t", temp->originalWord);
+		PrintList(temp->suggestions);
+		temp = temp->next;
+	}
+	printf("\n");
+
+}
+
+int IsExsistSuggerst(SpellingSuggestion* offers1,char* word1) {
+	SpellingSuggestion* temp1 = offers1;
+	if (offers1 == NULL)
+		return NULL;
+	while (temp1 != NULL){
+		if (temp1->originalWord == word1||strcmp(temp1->originalWord,word1)==0)
+			return 1;
+		temp1 = temp1->next;
+	}
+	return NULL;
+}
+
 
 void PrintAllHT(HashTable* ht) {
 	printf("====================================\n");

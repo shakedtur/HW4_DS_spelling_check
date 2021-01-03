@@ -59,17 +59,19 @@ int accumulateStringHashFunction(char* str) {
 }
 
 int improvedHashFunction(char* str) {
-	long int sum = 0;
-	long int count = strlen(str);
-
 	if (str == NULL)
 		return 0;
+	int sum = 0;
+	int count = strlen(str);
+
+
 	for (int i = 0; str[i] != '\0'; i++)
 	{
-		sum = sum + (ASCIIvalue(str[i]) * pow(31, (count - 1) - i));
+		sum = sum + (ASCIIvalue(str[i]) * pow(31, count - i));
 	}
 	return sum;
 }
+
 
 
 int hash(char* str, HashTable* ht) {
